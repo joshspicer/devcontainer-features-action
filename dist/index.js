@@ -112,7 +112,7 @@ function createRelease(octokit, tagName) {
             repo: github.context.repo.repo,
             tag_name: tagName,
             target_commitish: github.context.ref,
-            name: "Features Release",
+            name: 'Features Release'
         });
         if (release.status > 299) {
             core.setFailed(`Could not create release. Status code: ${release.status}`);
@@ -128,18 +128,20 @@ function updateReleaseAssetsWithFeaturesDir(octokit, release, featuresPath) {
     return __awaiter(this, void 0, void 0, function* () {
         tar.create({ file: 'features.tgz' }, [featuresPath]).then(_ => {
             fs.readFile('./features.tgz', {
-                encoding: 'utf-8',
+                encoding: 'utf-8'
             }, (err, data) => {
                 if (err) {
                     core.setFailed(err.message);
                 }
-                let uploaded = octokit.rest.repos.uploadReleaseAsset({
+                let uploaded = octokit.rest.repos
+                    .uploadReleaseAsset({
                     owner: github.context.repo.owner,
                     repo: github.context.repo.repo,
                     release_id: release.id,
                     name: 'features.tgz',
                     data
-                }).then(res => {
+                })
+                    .then(res => {
                     if (!res || res.status > 299) {
                         core.setFailed(`Could not upload asset. Status Code: ${res.status}`);
                     }

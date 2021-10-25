@@ -8,10 +8,9 @@
     "build": "tsc",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
-    "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",
-    "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
+    "all": "yarn build && yarn format && yarn package && yarn test"
   },
   "repository": {
     "type": "git",
@@ -33,11 +32,8 @@
   "devDependencies": {
     "@types/node": "^16.11.5",
     "@types/tar": "^6.1.0",
-    "@typescript-eslint/parser": "^5.1.0",
     "@vercel/ncc": "^0.31.1",
     "eslint": "^8.1.0",
-    "eslint-plugin-github": "^4.3.2",
-    "eslint-plugin-jest": "^25.2.2",
     "jest": "^27.3.1",
     "js-yaml": "^4.1.0",
     "prettier": "2.4.1",
