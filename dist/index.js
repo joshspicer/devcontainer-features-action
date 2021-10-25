@@ -41,13 +41,14 @@ const utils_1 = __nccwpck_require__(918);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            core.debug("Reading in secrets...");
             // Hydrate GitHub API provider
             const token = core.getInput('token');
             const octokit = github.getOctokit(token);
             // Defaults to root directory, "."
             const featuresPath = core.getInput('path-to-features');
             const tagName = core.getInput('tag-name');
-            core.debug(`Starting`);
+            core.debug(`Starting...`);
             const release = yield (0, utils_1.createRelease)(octokit, tagName);
             if (release) {
                 yield (0, utils_1.updateReleaseAssetsWithFeaturesDir)(octokit, release.data, featuresPath);

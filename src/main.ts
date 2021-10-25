@@ -4,6 +4,7 @@ import {createRelease, updateReleaseAssetsWithFeaturesDir} from './utils'
 
 async function run(): Promise<void> {
   try {
+    core.debug("Reading in secrets...")
     // Hydrate GitHub API provider
     const token = core.getInput('token')
     const octokit = github.getOctokit(token)
@@ -12,7 +13,7 @@ async function run(): Promise<void> {
     const featuresPath = core.getInput('path-to-features')
     const tagName = core.getInput('tag-name')
 
-    core.debug(`Starting`)
+    core.debug(`Starting...`)
     const release = await createRelease(octokit, tagName)
     if (release) {
       await updateReleaseAssetsWithFeaturesDir(
