@@ -11,8 +11,8 @@ export async function createRelease(octokit: Octokit & Api, tagName: string) {
   const release = await octokit.rest.repos.createRelease({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
-    tag_name: "v0.0.8-test2",
-    // target_commitish: github.context.ref,
+    tag_name: tagName,
+    target_commitish: 'main',
     name: 'Features Release'
   });
 
