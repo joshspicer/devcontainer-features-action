@@ -24,6 +24,6 @@ jobs:
       - uses: ./
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.get_tag_name.outputs.tag }}
-          path_to_features: './features-test-dir'
+          tag-name: ${{ steps.get_tag_name.outputs.tag }}
+          path-to-features: './features-test-dir'
           
