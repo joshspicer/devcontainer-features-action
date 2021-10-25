@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
+import { createRelease, updateReleaseAssetsWithFeaturesDir } from './utils'
 
 async function run(): Promise<void> {
   try {
@@ -10,15 +11,14 @@ async function run(): Promise<void> {
     
     // Defaults to root directory, "."
     const featuresPath = core.getInput('path-to-features');
-
     const tagName = core.getInput('tag-name');
 
 
     core.debug(`Starting`);
-
-
-
-    core.setOutput('AtEnd', "yes");
+    const release = await createRelease(octokit, tagName);
+    if (release) {
+      await updateReleaseAssetsWithFeaturesDir(octokit, release.data, featuresPath);
+    }
 
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
