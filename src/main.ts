@@ -15,6 +15,8 @@ async function run(): Promise<void> {
     core.debug("calling tarFeaturesDirectory()")
     await tarFeaturesDirectory(featuresPath);
     
+    core.debug("Run has finished.")
+
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
