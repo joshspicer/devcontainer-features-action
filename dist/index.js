@@ -40,7 +40,7 @@ const utils_1 = __nccwpck_require__(918);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            core.debug("Reading input parameters...");
+            core.debug('Reading input parameters...');
             // Defaults to root directory, "."
             const featuresPath = core.getInput('path-to-features');
             core.debug(`Starting...`);
