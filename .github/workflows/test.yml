@@ -20,7 +20,7 @@ jobs:
           yarn build && yarn package
       - uses: ./
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_TOKEN }}
           tag-name: ${{ steps.get_tag_name.outputs.tag }}
           path-to-features: './features-test-dir'
           
