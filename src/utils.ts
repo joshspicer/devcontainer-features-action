@@ -28,6 +28,27 @@ export async function createRelease(octokit: Octokit & Api, tagName: string) {
   return release
 }
 
+export async function getReleaseByTag(octokit: Octokit & Api, tag: string) {
+  core.debug(`Fetching release for ${tag}`);
+  const release = await octokit.rest.repos.getReleaseByTag({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    tag,
+  });
+
+  if (release.status > 299) {
+    core.setFailed(`Could not fetch existing release. Status code: ${release.status}`)
+    return undefined
+  }
+
+  core.info(
+    `Fetched existing release (${release.status}) with tag '${tag}' at ${release.data.upload_url}`
+  )
+  return release
+}
+
+
+
 // Updates a provided release with the relevant features assets
 export async function updateReleaseAssetsWithFeaturesDir(
   octokit: Octokit & Api,

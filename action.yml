@@ -1,17 +1,11 @@
-name: 'Devcontainer Features File'
-description: 'Description...'
+name: 'Devcontainer Features'
+description: 'Linter and Packager for Devcontainer feature definition(s)'
 author: 'GitHub'
 inputs:
-  token:
-    required: true
-    description: 'GitHub Auth Token'
   path-to-features:
     required: false
-    description: 'Path to features.json and definition. Defaults to root directory.'
+    description: 'Relative path to features.json and definition(s). Defaults to root directory.'
     default: '.'
-  tag-name:
-    required: true
-    description: 'Release Tag'
 runs:
   using: 'node12'
   main: 'dist/index.js'

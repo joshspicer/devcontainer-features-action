@@ -1,4 +1,4 @@
-name: 'run-action-test'
+name: 'end-to-end-run-test'
 on:
   push:
     tags:

@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {createRelease, updateReleaseAssetsWithFeaturesDir} from './utils'
+import {createRelease, getReleaseByTag, updateReleaseAssetsWithFeaturesDir} from './utils'
 
 async function run(): Promise<void> {
   try {
@@ -14,7 +14,7 @@ async function run(): Promise<void> {
     const tagName = core.getInput('tag-name')
 
     core.debug(`Starting...`)
-    const release = await createRelease(octokit, tagName)
+    const release = await getReleaseByTag(octokit, tagName)
     if (release) {
       await updateReleaseAssetsWithFeaturesDir(
         octokit,
