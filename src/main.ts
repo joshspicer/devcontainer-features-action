@@ -4,10 +4,7 @@ import {tarFeaturesDirectory} from './utils'
 
 async function run(): Promise<void> {
   try {
-    core.debug('Reading in secrets...')
-    const token = core.getInput('token')
-    const octokit = github.getOctokit(token)
-
+    core.debug("Reading input parameters...")
     // Defaults to root directory, "."
     const featuresPath = core.getInput('path-to-features')
 
