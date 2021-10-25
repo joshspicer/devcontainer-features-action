@@ -12,7 +12,7 @@ export async function createRelease(octokit: Octokit & Api, tagName: string) {
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     tag_name: tagName,
-    target_commitish: github.context.ref,
+    // target_commitish: github.context.ref,
     name: 'Features Release'
   });
 
