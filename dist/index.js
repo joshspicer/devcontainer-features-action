@@ -42,17 +42,14 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             core.debug("Reading in secrets...");
-            // Hydrate GitHub API provider
             const token = core.getInput('token');
             const octokit = github.getOctokit(token);
             // Defaults to root directory, "."
             const featuresPath = core.getInput('path-to-features');
-            const tagName = core.getInput('tag-name');
             core.debug(`Starting...`);
-            const release = yield (0, utils_1.createRelease)(octokit, tagName);
-            if (release) {
-                yield (0, utils_1.updateReleaseAssetsWithFeaturesDir)(octokit, release.data, featuresPath);
-            }
+            core.debug("calling tarFeaturesDirectory()");
+            yield (0, utils_1.tarFeaturesDirectory)(featuresPath);
+            core.debug("Run has finished.");
         }
         catch (error) {
             if (error instanceof Error)
@@ -100,62 +97,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.updateReleaseAssetsWithFeaturesDir = exports.createRelease = void 0;
-const github = __importStar(__nccwpck_require__(5438));
-const core = __importStar(__nccwpck_require__(2186));
+exports.tarFeaturesDirectory = void 0;
 const tar = __importStar(__nccwpck_require__(4674));
-const fs = __importStar(__nccwpck_require__(5747));
-// Creates a release at the current context's ref with the given tagName
-function createRelease(octokit, tagName) {
+const core = __importStar(__nccwpck_require__(2186));
+function tarFeaturesDirectory(path) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.debug(`Starting to create release against ${github.context.ref}`);
-        const release = yield octokit.rest.repos.createRelease({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-            tag_name: tagName,
-            target_commitish: github.context.ref,
-            name: 'Features Release',
-            prerelease: true
-        });
-        if (release.status > 299) {
-            core.setFailed(`Could not create release. Status code: ${release.status}`);
-            return undefined;
-        }
-        core.info(`Created release (${release.status}) with tag '${tagName}' at ${release.data.upload_url}`);
-        return release;
-    });
-}
-exports.createRelease = createRelease;
-// Updates a provided release with the relevant features assets
-function updateReleaseAssetsWithFeaturesDir(octokit, release, featuresPath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        tar.create({ file: 'features.tgz' }, [featuresPath]).then(_ => {
-            fs.readFile('./features.tgz', {
-                encoding: 'utf-8'
-            }, (err, data) => {
-                if (err) {
-                    core.setFailed(err.message);
-                }
-                let uploaded = octokit.rest.repos
-                    .uploadReleaseAsset({
-                    owner: github.context.repo.owner,
-                    repo: github.context.repo.repo,
-                    release_id: release.id,
-                    name: 'features.tgz',
-                    data
-                })
-                    .then(res => {
-                    if (!res || res.status > 299) {
-                        core.setFailed(`Could not upload asset. Status Code: ${res.status}`);
-                    }
-                    core.setOutput('uploaded-state', res.data.state);
-                    core.setOutput('uploaded-browser-upload-url', res.data.browser_download_url);
-                });
-            });
+        return tar.create({ file: 'features.tar.gz' }, [path])
+            .then(_ => {
+            core.info("Compressed features directory.");
         });
     });
 }
-exports.updateReleaseAssetsWithFeaturesDir = updateReleaseAssetsWithFeaturesDir;
+exports.tarFeaturesDirectory = tarFeaturesDirectory;
 
 
 /***/ }),
