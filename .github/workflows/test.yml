@@ -5,21 +5,18 @@ on:
     - 'v*'
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - run: |
-         yarn
-      - run: |
-          yarn all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:  
       - name: Get tag name
         id: get_tag_name  
         run: echo "::set-output name=tag::$(echo "${{ github.ref }}" | grep -oP 'refs/tags/\K(.+)')"
-
+      - name: Install dependencies
+        run: |
+         yarn
+      - name: yarn build and yarn package
+        run: |
+          yarn build && yarn package
       - uses: actions/checkout@v2
       - uses: ./
         with:
