@@ -4,7 +4,7 @@ import {tarFeaturesDirectory} from './utils'
 
 async function run(): Promise<void> {
   try {
-    core.debug("Reading input parameters...")
+    core.debug('Reading input parameters...')
     // Defaults to root directory, "."
     const featuresPath = core.getInput('path-to-features')
 
