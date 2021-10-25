@@ -22,7 +22,7 @@ jobs:
         run: |
           yarn build && yarn package
           
-      - name: Devcontainer Features - Lint and Archive
+      - name: Devcontainer features (lint & archive)
         uses: ./
         with:
           path-to-features: './features-test-dir'
@@ -30,7 +30,9 @@ jobs:
       - name: Get or Create Release at current tag
         uses: ncipollo/release-action@v1
         with:
-#           tag: 
+          allowUpdates: true # Lets us upload our own artifact from previous step
+          artifactErrorsFailBuild: true
+          artifacts: './features.tar.gz'
           token: ${{ secrets.GITHUB_TOKEN }}
 
           
