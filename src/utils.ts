@@ -8,20 +8,14 @@ import * as fs from 'fs'
 // Creates a release at the current context's ref with the given tagName
 export async function createRelease(octokit: Octokit & Api, tagName: string) {
   core.debug(`Starting to create release against ${github.context.ref}`);
-  // const release = await octokit.rest.repos.createRelease({
-  //   owner: github.context.repo.owner,
-  //   repo: github.context.repo.repo,
-  //   tag_name: tagName,
-  //   target_commitish: github.context.ref,
-  //   name: 'Features Release',
-  //   prerelease: true
-  // });
-
-    const release = {
-      status: 800,
-      data: { upload_url: 'ah', id: 99}
-    };
-    core.debug("sanity check complete")
+  const release = await octokit.rest.repos.createRelease({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
+    tag_name: tagName,
+    target_commitish: github.context.ref,
+    name: 'Features Release',
+    prerelease: true
+  });
 
   if (release.status > 299) {
     core.setFailed(`Could not create release. Status code: ${release.status}`)
