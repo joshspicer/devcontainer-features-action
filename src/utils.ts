@@ -6,7 +6,7 @@ import {Octokit} from '@octokit/core'
 import {Api} from '@octokit/plugin-rest-endpoint-methods/dist-types/types'
 
 export async function tarFeaturesDirectory(path: string) {
-  return tar.create({file: 'features.tgz'}, [path]).then(_ => {
+  return tar.create({file: 'features.tgz', C: path}, ['.']).then(_ => {
     core.info('Compressed features directory.')
   })
 }
