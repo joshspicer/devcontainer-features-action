@@ -100,7 +100,7 @@ const core = __importStar(__nccwpck_require__(2186));
 function tarFeaturesDirectory(path) {
     return __awaiter(this, void 0, void 0, function* () {
         return tar.create({ file: 'features.tgz', C: path }, ['.']).then(_ => {
-            core.info('Compressed features directory.');
+            core.info('Compressed features directory to file features.tgz');
         });
     });
 }
