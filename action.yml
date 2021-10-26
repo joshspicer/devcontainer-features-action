@@ -1,8 +1,9 @@
 name: 'Devcontainer Features'
 description: 'Linter and Packager for Devcontainer feature definition(s)'
 author: 'GitHub'
-icon: box
-color: blue
+branding:
+  icon: box
+  color: blue
 inputs:
   path-to-features:
     required: false
