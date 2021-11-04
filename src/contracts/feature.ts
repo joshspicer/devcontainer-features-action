@@ -57,5 +57,5 @@ export interface FeaturesConfig {
   features: Feature[]
   dstFolder: string // set programatically
   featureSetFolderHashes: Set<string> // set programatically
-  sourceInformation: SourceInformation // set at feature packaging (GitHub Action)
+  sourceInformation?: SourceInformation // set at feature packaging (GitHub Action)
 }
