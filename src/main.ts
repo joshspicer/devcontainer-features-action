@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {tarFeaturesDirectory} from './utils'
+import {addMetadataToFeaturesJson, tarFeaturesDirectory} from './utils'
 
 async function run(): Promise<void> {
   try {
@@ -9,6 +9,11 @@ async function run(): Promise<void> {
     const featuresPath = core.getInput('path-to-features')
 
     core.debug(`Starting...`)
+
+    core.debug('Inserting metadata onto features.json')
+    await addMetadataToFeaturesJson(featuresPath);
+
+
     core.debug('calling tarFeaturesDirectory()')
     await tarFeaturesDirectory(featuresPath)
 
