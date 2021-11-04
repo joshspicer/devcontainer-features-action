@@ -12,8 +12,17 @@ import {FeaturesConfig, SourceInformation} from './contracts/feature'
 export const readLocalFile = promisify(fs.readFile)
 export const writeLocalFile = promisify(fs.writeFile)
 
+// Filter what gets included in the tar.c
+const filter = (file: string, _: tar.FileStat) => {
+  // Don't include the archive itself.
+  if (file === './features.tgz') {
+    return false
+  }
+  return true
+}
+
 export async function tarFeaturesDirectory(path: string) {
-  return tar.create({file: 'features.tgz', C: path}, ['.']).then(_ => {
+  return tar.create({file: 'features.tgz', C: path, filter}, ['.']).then(_ => {
     core.info('Compressed features directory to file features.tgz')
   })
 }
@@ -47,5 +56,5 @@ export async function addMetadataToFeaturesJson(pathToFeatureDir: string) {
   parsed = {...parsed, sourceInformation}
 
   // Write back to the file
-  await writeLocalFile(p, parsed.toString())
+  await writeLocalFile(p, JSON.stringify(parsed))
 }

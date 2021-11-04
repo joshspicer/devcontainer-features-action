@@ -109,9 +109,17 @@ const util_1 = __nccwpck_require__(1669);
 const path_1 = __importDefault(__nccwpck_require__(5622));
 exports.readLocalFile = (0, util_1.promisify)(fs.readFile);
 exports.writeLocalFile = (0, util_1.promisify)(fs.writeFile);
+// Filter what gets included in the tar.c
+const filter = (file, _) => {
+    // Don't include .dotfiles or the archive itself.
+    if (file === './features.tgz') {
+        return false;
+    }
+    return true;
+};
 function tarFeaturesDirectory(path) {
     return __awaiter(this, void 0, void 0, function* () {
-        return tar.create({ file: 'features.tgz', C: path }, ['.']).then(_ => {
+        return tar.create({ file: 'features.tgz', C: path, filter }, ['.']).then(_ => {
             core.info('Compressed features directory to file features.tgz');
         });
     });
@@ -144,7 +152,7 @@ function addMetadataToFeaturesJson(pathToFeatureDir) {
         let parsed = jsonc.parse(featuresJson);
         parsed = Object.assign(Object.assign({}, parsed), { sourceInformation });
         // Write back to the file
-        yield (0, exports.writeLocalFile)(p, parsed.toString());
+        yield (0, exports.writeLocalFile)(p, JSON.stringify(parsed));
     });
 }
 exports.addMetadataToFeaturesJson = addMetadataToFeaturesJson;
