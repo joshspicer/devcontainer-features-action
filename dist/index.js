@@ -111,7 +111,7 @@ exports.readLocalFile = (0, util_1.promisify)(fs.readFile);
 exports.writeLocalFile = (0, util_1.promisify)(fs.writeFile);
 // Filter what gets included in the tar.c
 const filter = (file, _) => {
-    // Don't include .dotfiles or the archive itself.
+    // Don't include the archive itself.
     if (file === './features.tgz') {
         return false;
     }
@@ -152,7 +152,7 @@ function addMetadataToFeaturesJson(pathToFeatureDir) {
         let parsed = jsonc.parse(featuresJson);
         parsed = Object.assign(Object.assign({}, parsed), { sourceInformation });
         // Write back to the file
-        yield (0, exports.writeLocalFile)(p, JSON.stringify(parsed));
+        yield (0, exports.writeLocalFile)(p, JSON.stringify(parsed, undefined, 4));
     });
 }
 exports.addMetadataToFeaturesJson = addMetadataToFeaturesJson;
