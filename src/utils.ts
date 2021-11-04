@@ -56,5 +56,5 @@ export async function addMetadataToFeaturesJson(pathToFeatureDir: string) {
   parsed = {...parsed, sourceInformation}
 
   // Write back to the file
-  await writeLocalFile(p, JSON.stringify(parsed))
+  await writeLocalFile(p, JSON.stringify(parsed, undefined, 4))
 }
